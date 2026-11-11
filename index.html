@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TLC Academy — Self-Study Progress Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#EEF2F6] text-slate-800 font-sans min-h-screen pb-14">
+  <!-- TOP HEADER -->
+  <header class="bg-[#162336] text-white px-4 sm:px-6 py-3.5 shadow-md sticky top-0 z-40 flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-[#CC171D] flex items-center justify-center font-black text-sm shadow">TLC</div>
+      <div>
+        <h1 class="font-black text-sm sm:text-base leading-tight">TLC Academy — Self-Study Progress Tracker</h1>
+        <p id="headerSub" class="text-xs text-slate-300">Your Passport to a Better Future • 90% Promotion Standard (162/180 Tasks)</p>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <a href="https://drive.google.com/drive/folders/1LvbOgsngSlacWrQ7P2yNLGISeZD7AD1R?usp=sharing" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-[#162336] text-xs font-black shadow-xs transition">📂 Open Self-Study Drive Folder</a>
+      <button id="logoutBtn" onclick="logoutUser()" class="hidden px-3.5 py-2 rounded-xl bg-[#CC171D] hover:bg-red-700 text-white text-xs font-black transition">Switch User</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-4 sm:p-6">
+    <!-- 1. FRIENDLY LOGIN CARD (STUDENT 1-TIME AUTO-LOGIN OR COACH PORTAL) -->
+    <div id="loginCard" class="max-w-lg mx-auto bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden mt-6">
+      <div class="grid grid-cols-2 bg-slate-100 border-b border-slate-200">
+        <button id="tabStuBtn" onclick="switchLoginTab('student')" class="py-3.5 text-xs sm:text-sm font-black bg-white text-[#162336] border-b-4 border-[#CC171D]">1. Student Login</button>
+        <button id="tabCoachBtn" onclick="switchLoginTab('coach')" class="py-3.5 text-xs sm:text-sm font-black text-slate-500">2. Coach Portal</button>
+      </div>
+
+      <!-- Student Login Form -->
+      <div id="stuLoginForm" class="p-6 space-y-4">
+        <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-slate-700">
+          <strong class="text-[#162336]">1-Time Easy Login:</strong> Enter your <strong>Phone Number</strong> or <strong>Full Name</strong> once. We automatically save your login on this phone or laptop so your sheet opens immediately every day!
+        </div>
+        <div id="loginMsg" class="hidden p-3 rounded-xl bg-red-50 text-[#CC171D] text-xs font-bold"></div>
+        <div>
+          <label class="block text-xs font-extrabold uppercase text-[#162336] mb-1">1. Your Phone Number *</label>
+          <input id="phoneInput" type="tel" placeholder="e.g., 01012345601" class="w-full px-3.5 py-3 border-2 border-slate-300 rounded-xl text-sm font-bold focus:border-[#162336] focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-extrabold uppercase text-slate-600 mb-1">2. Your Full Name (Optional if Phone entered)</label>
+          <input id="nameInput" type="text" placeholder="Your Full Name" class="w-full px-3.5 py-3 border-2 border-slate-300 rounded-xl text-sm font-bold focus:border-[#162336] focus:outline-none" />
+        </div>
+        <button onclick="loginStudent()" class="w-full py-3.5 rounded-xl bg-[#CC171D] hover:bg-red-700 text-white font-black text-sm shadow-md transition">Open My Personal 30-Day Sheet →</button>
+      </div>
+
+      <!-- Coach Login Form -->
+      <div id="coachLoginForm" class="hidden p-6 space-y-4">
+        <h2 class="text-base font-black text-[#162336]">Coach Portal & Cohort Tracker</h2>
+        <p class="text-xs text-slate-500">Search students by Phone Number first, add new students, copy WhatsApp auto-login links, and audit all 30 days.</p>
+        <input id="coachPassInput" type="password" placeholder="Enter Coach Passcode (TLC2026)" class="w-full px-3.5 py-3 border-2 border-slate-300 rounded-xl text-sm font-bold" />
+        <button onclick="loginCoach()" class="w-full py-3.5 rounded-xl bg-[#162336] hover:bg-slate-800 text-white font-black text-sm shadow-md">Enter Coach Portal</button>
+      </div>
+    </div>
+
+    <!-- 2. STUDENT WORKSPACE (100% PRIVATE TO LOGGED-IN STUDENT) -->
+    <div id="studentApp" class="hidden space-y-5">
+      <!-- Friendly 3-Step Daily Bar -->
+      <div class="bg-white rounded-2xl p-4 shadow-xs border border-slate-200 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-3 text-xs font-bold text-[#162336]">
+          <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-900 font-black">How to Use Daily:</span>
+          <span>① Open your study file from Google Drive</span>
+          <span>→</span>
+          <span>② Tap today's box in the sheet below</span>
+          <span>→</span>
+          <span>③ Write 1 short proof line to turn it Green!</span>
+        </div>
+        <a id="stuDriveBtn" href="https://drive.google.com/drive/folders/1LvbOgsngSlacWrQ7P2yNLGISeZD7AD1R?usp=sharing" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl bg-[#162336] hover:bg-slate-800 text-amber-300 text-xs font-black">📂 Open My Level Self-Study Files (Drive)</a>
+      </div>
+
+      <!-- 3 Accountability Cards -->
+      <div id="bannerArea" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+
+      <!-- Filter Tabs + Excel Sheet -->
+      <div class="bg-white rounded-2xl shadow-md border-2 border-slate-300 overflow-hidden">
+        <div class="bg-[#162336] text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+          <span class="font-black text-xs sm:text-sm">Master 30-Day Self-Study Sheet (Tap Any Box to Mark Complete)</span>
+          <span id="syncStatus" class="text-emerald-300 text-xs font-bold">✓ Live Synced with Coach Sheet</span>
+        </div>
+        <div class="overflow-x-auto max-h-[560px] overflow-y-auto">
+          <table class="w-full border-collapse text-left text-xs">
+            <thead class="bg-slate-100 text-[#162336] font-black border-b-2 border-slate-300 sticky top-0 z-10">
+              <tr>
+                <th class="p-3 border-r">Day</th>
+                <th class="p-3 border-r">AJ (Listening)</th>
+                <th class="p-3 border-r">Friends (Shadowing)</th>
+                <th class="p-3 border-r">Vocabs</th>
+                <th class="p-3 border-r">Quizzes (Grammar)</th>
+                <th class="p-3 border-r">Pronunciation</th>
+                <th class="p-3">Conversation</th>
+              </tr>
+            </thead>
+            <tbody id="gridBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. COACH PORTAL VIEW -->
+    <div id="coachApp" class="hidden space-y-5">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-lg font-black text-[#162336]">Coach Cohort Table (Phone Number #1 Search)</h2>
+          <p class="text-xs text-slate-500">Click "Copy WhatsApp Invite" next to any student to send them their 1-click auto-login link.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <input id="coachSearchPhone" oninput="renderCoachTable()" type="text" placeholder="1. Search Phone (010...)" class="px-3 py-2 border-2 border-[#162336] rounded-xl text-xs font-bold bg-amber-50/40" />
+          <button onclick="openAddStuPrompt()" class="px-4 py-2 rounded-xl bg-[#CC171D] text-white text-xs font-black">+ Add New Student</button>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl shadow border border-slate-300 overflow-x-auto">
+        <table class="w-full border-collapse text-left text-xs">
+          <thead class="bg-[#162336] text-white font-black">
+            <tr>
+              <th class="p-3 border-r border-slate-700 text-amber-300">1. Phone Number</th>
+              <th class="p-3 border-r border-slate-700">2. Student Name</th>
+              <th class="p-3 border-r border-slate-700">Level</th>
+              <th class="p-3 border-r border-slate-700">Cycle Day</th>
+              <th class="p-3 border-r border-slate-700">Verified Done %</th>
+              <th class="p-3 border-r border-slate-700 text-red-300">Shortage (Missed)</th>
+              <th class="p-3 text-right">WhatsApp Auto-Login Invite</th>
+            </tr>
+          </thead>
+          <tbody id="coachTableBody" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- FRIENDLY VERIFICATION MODAL (NO BROWSER PROMPT) -->
+  <div id="proofModal" class="hidden fixed inset-0 z-50 bg-slate-950/60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-[#162336] space-y-4">
+      <div class="flex items-center justify-between border-b pb-3">
+        <div>
+          <div id="modalSub" class="text-[11px] font-black uppercase text-[#CC171D]">Day 1 • Verify Task</div>
+          <h3 id="modalTitle" class="text-lg font-black text-[#162336]">Mark Self-Study Task Complete</h3>
+        </div>
+        <button onclick="closeProofModal()" class="text-slate-400 hover:text-slate-700 font-black text-lg">✕</button>
+      </div>
+      <div class="flex items-center justify-between bg-amber-50 border border-amber-200 p-3 rounded-xl text-xs">
+        <span class="font-bold text-[#162336]">Need today's audio, video, or quiz link?</span>
+        <a id="modalDriveLink" href="https://drive.google.com/drive/folders/1LvbOgsngSlacWrQ7P2yNLGISeZD7AD1R?usp=sharing" target="_blank" class="px-2.5 py-1 rounded-lg bg-[#162336] text-amber-300 font-black">📂 Open Study Material</a>
+      </div>
+      <div>
+        <label class="block text-xs font-black text-slate-700 mb-1">Write 1 short line of what you studied (Quiz score, 2 words, or shadowed phrase):</label>
+        <textarea id="modalNoteInput" rows="3" placeholder="e.g., Listened 3x & shadowed aloud / Quiz score 9/10" class="w-full p-3 border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:border-[#162336] focus:outline-none"></textarea>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button onclick="closeProofModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600">Cancel</button>
+        <button onclick="saveProofFromModal()" class="px-5 py-2.5 rounded-xl bg-[#10B981] hover:bg-emerald-700 text-white text-xs font-black shadow">✓ Verify & Turn Green</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz5QuplSxuwjmRTYjGNzKo9XraWpfeswmtNLWITnfcoqk2EeqDzsLlUdw-y9RnHbxk/exec";
+    const TABS = ["aj", "friends", "vocabs", "quizzes", "pronunciation", "conversation"];
+    let currentStudent = null;
+    let allStudents = [];
+    let activeCell = null;
+
+    function normPhone(p) { return String(p || "").replace(/\D/g, ""); }
+
+    function switchLoginTab(tab) {
+      document.getElementById("stuLoginForm").classList.toggle("hidden", tab !== "student");
+      document.getElementById("coachLoginForm").classList.toggle("hidden", tab !== "coach");
+      document.getElementById("tabStuBtn").className = tab === "student" ? "py-3.5 text-xs sm:text-sm font-black bg-white text-[#162336] border-b-4 border-[#CC171D]" : "py-3.5 text-xs sm:text-sm font-black text-slate-500";
+      document.getElementById("tabCoachBtn").className = tab === "coach" ? "py-3.5 text-xs sm:text-sm font-black bg-white text-[#162336] border-b-4 border-[#10B981]" : "py-3.5 text-xs sm:text-sm font-black text-slate-500";
+    }
+
+    async function loginStudent(savedPhone) {
+      const p = normPhone(savedPhone || document.getElementById("phoneInput").value);
+      const n = String(document.getElementById("nameInput").value || "").trim();
+      const msgEl = document.getElementById("loginMsg");
+      msgEl.classList.remove("hidden");
+      msgEl.textContent = "Opening your personal 30-day sheet...";
+      try {
+        const res = await fetch(GAS_WEB_APP_URL + "?mode=api&phone=" + encodeURIComponent(p) + "&name=" + encodeURIComponent(n));
+        const data = await res.json();
+        if (data && data.student) {
+          currentStudent = data.student;
+          localStorage.setItem("tlc_saved_phone", currentStudent.phone);
+          renderStudentSheet();
+        } else {
+          msgEl.textContent = "No sheet found for that Phone/Name. Please check your digits or ask your Coach.";
+        }
+      } catch (e) {
+        msgEl.textContent = "Connection error. Please check your internet and try again.";
+      }
+    }
+
+    async function loginCoach() {
+      const pass = document.getElementById("coachPassInput").value.trim();
+      if (pass !== "TLC2026") { return; }
+      const res = await fetch(GAS_WEB_APP_URL + "?mode=api");
+      const data = await res.json();
+      allStudents = (data && data.students) ? data.students : [];
+      document.getElementById("loginCard").classList.add("hidden");
+      document.getElementById("coachApp").classList.remove("hidden");
+      document.getElementById("logoutBtn").classList.remove("hidden");
+      renderCoachTable();
+    }
+
+    function renderCoachTable() {
+      const q = normPhone(document.getElementById("coachSearchPhone").value);
+      const tbody = document.getElementById("coachTableBody");
+      tbody.innerHTML = "";
+      allStudents.filter(s => !q || normPhone(s.phone).includes(q)).forEach(s => {
+        let v = 0, sh = 0;
+        const cd = Number(s.currentCycleDay) || 30;
+        for (let d = 1; d <= 30; d++) {
+          TABS.forEach(t => {
+            const c = s.days && s.days[d] && s.days[d][t];
+            if (c && c.completed && c.note) v++;
+            else if (d <= cd) sh++;
+          });
+        }
+        const pct = Math.round((v / 180) * 100);
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          '<td class="p-3 border-r font-mono font-black text-[#CC171D]">' + (s.phone || "") + '</td>' +
+          '<td class="p-3 border-r font-black text-[#162336]">' + s.name + '</td>' +
+          '<td class="p-3 border-r font-bold">' + s.level + '</td>' +
+          '<td class="p-3 border-r font-bold">Day ' + cd + '/30</td>' +
+          '<td class="p-3 border-r font-black text-emerald-700">' + pct + '% (' + v + '/180)</td>' +
+          '<td class="p-3 border-r font-black text-[#CC171D]">' + sh + ' Missed</td>' +
+          '<td class="p-3 text-right"><button onclick="copyInvite(\'' + s.phone + '\', \'' + s.name.replace(/\'/g, "") + '\', \'' + s.level + '\')" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white font-black text-xs">📲 Copy WhatsApp Invite</button></td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    function copyInvite(phone, name, level) {
+      const link = window.location.origin + window.location.pathname + "?phone=" + encodeURIComponent(phone);
+      const msg = "Hello " + name + "! 🌟\n\nHere is your personal TLC Academy 30-Day Self-Study Tracker (Level " + level + "):\n👉 " + link + "\n\n📂 Self-Study Audio, Video & Quiz Materials Folder:\n👉 https://drive.google.com/drive/folders/1LvbOgsngSlacWrQ7P2yNLGISeZD7AD1R?usp=sharing\n\nYour login is saved automatically after the first tap! Complete all 6 daily tabs to reach 90% (162/180 tasks) for next-level promotion.";
+      navigator.clipboard.writeText(msg);
+    }
+
+    async function openAddStuPrompt() {
+      const phone = prompt("1. Enter Student Phone Number (e.g., 01012345678):");
+      if (!phone) return;
+      const name = prompt("2. Enter Student Full Name:");
+      if (!name) return;
+      const level = prompt("3. Enter Level (Starter 1, Starter 2, Starter 3, A1, A2, A2+, B1, B2, B2+, C1, C2, C2+):", "A2+");
+      const freshDays = {};
+      for (let d = 1; d <= 30; d++) { freshDays[d] = {}; TABS.forEach(t => freshDays[d][t] = { completed: false, tag: "", note: "" }); }
+      const newStu = { id: "stu-" + Date.now(), phone: phone.trim(), name: name.trim(), level: level || "B1", currentCycleDay: 1, days: freshDays };
+      allStudents.push(newStu);
+      renderCoachTable();
+      await fetch(GAS_WEB_APP_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ student: newStu }) });
+    }
+
+    function logoutUser() {
+      localStorage.removeItem("tlc_saved_phone");
+      window.location.href = window.location.pathname;
+    }
+
+    function renderStudentSheet() {
+      document.getElementById("loginCard").classList.add("hidden");
+      document.getElementById("studentApp").classList.remove("hidden");
+      document.getElementById("logoutBtn").classList.remove("hidden");
+      document.getElementById("headerSub").textContent = currentStudent.name + " • Phone: " + currentStudent.phone + " • Level: " + currentStudent.level;
+
+      let verified = 0, shortage = 0;
+      const cd = Number(currentStudent.currentCycleDay) || 30;
+      const tbody = document.getElementById("gridBody");
+      tbody.innerHTML = "";
+
+      for (let d = 1; d <= 30; d++) {
+        const tr = document.createElement("tr");
+        tr.className = "border-b border-slate-200";
+        let rowHtml = '<td class="p-2.5 font-black bg-slate-50 border-r text-[#162336]">Day ' + d + (d === cd ? ' <span class="px-1.5 py-0.5 rounded bg-[#162336] text-amber-300 text-[9px]">TODAY</span>' : '') + '</td>';
+        TABS.forEach(t => {
+          const c = (currentStudent.days && currentStudent.days[d] && currentStudent.days[d][t]) || {};
+          const done = Boolean(c.completed && c.note);
+          if (done) verified++;
+          else if (d <= cd) shortage++;
+          rowHtml += '<td onclick="openProofModal(' + d + ', \'' + t + '\')" class="p-2.5 border-r cursor-pointer transition ' + (done ? 'bg-emerald-50 hover:bg-emerald-100' : d <= cd ? 'bg-red-50/60 hover:bg-red-100' : 'hover:bg-slate-100') + '">' +
+            (done ? '<span class="px-1.5 py-0.5 rounded bg-[#10B981] text-white font-black text-[10px]">✓ DONE</span><div class="mt-1 text-[11px] font-medium text-slate-700">' + c.note + '</div>' :
+             d <= cd ? '<span class="px-1.5 py-0.5 rounded bg-red-100 text-[#CC171D] font-black text-[10px]">SHORTAGE</span><div class="text-[10px] font-bold text-[#CC171D] underline mt-1">+ Tap to Complete</div>' :
+             '<span class="text-slate-400 font-semibold">+ Tap to Check</span>') + '</td>';
+        });
+        tr.innerHTML = rowHtml;
+        tbody.appendChild(tr);
+      }
+
+      const pct = Math.round((verified / 180) * 100);
+      document.getElementById("bannerArea").innerHTML =
+        '<div class="bg-white p-4 rounded-2xl border-2 border-[#10B981]"><div class="text-xs font-black text-emerald-700">1. ACCOMPLISHED SO FAR</div><div class="text-2xl font-black mt-1 text-[#162336]">' + verified + ' / 180 Tasks (' + pct + '%)</div></div>' +
+        '<div class="bg-white p-4 rounded-2xl border-2 border-[#EF4444]"><div class="text-xs font-black text-[#CC171D]">2. SHORTAGE / MISSED (UP TO DAY ' + cd + ')</div><div class="text-2xl font-black text-[#EF4444] mt-1">' + shortage + ' Missed Tasks</div></div>' +
+        '<div class="bg-[#162336] text-white p-4 rounded-2xl"><div class="text-xs font-black text-amber-300">3. LEFT TO HIT 90% PROMOTION (162)</div><div class="text-2xl font-black mt-1">' + Math.max(0, 162 - verified) + ' Tasks Left</div></div>';
+    }
+
+    function openProofModal(day, tabId) {
+      activeCell = { day, tabId };
+      const existing = (currentStudent.days && currentStudent.days[day] && currentStudent.days[day][tabId]) || {};
+      document.getElementById("modalSub").textContent = "Day " + day + " of 30 • " + tabId.toUpperCase();
+      document.getElementById("modalTitle").textContent = "Confirm Your " + tabId.toUpperCase() + " Self-Study";
+      document.getElementById("modalNoteInput").value = existing.note || "";
+      document.getElementById("proofModal").classList.remove("hidden");
+    }
+
+    function closeProofModal() {
+      document.getElementById("proofModal").classList.add("hidden");
+      activeCell = null;
+    }
+
+    async function saveProofFromModal() {
+      if (!activeCell) return;
+      const note = document.getElementById("modalNoteInput").value.trim();
+      if (note.length < 2) { return; }
+      const { day, tabId } = activeCell;
+      if (!currentStudent.days[day]) currentStudent.days[day] = {};
+      currentStudent.days[day][tabId] = { completed: true, tag: "Verified", note: note, verifiedAt: new Date().toISOString().slice(0, 10) };
+      closeProofModal();
+      renderStudentSheet();
+      document.getElementById("syncStatus").textContent = "Syncing to Google Sheet...";
+      await fetch(GAS_WEB_APP_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ student: currentStudent })
+      });
+      document.getElementById("syncStatus").textContent = "✓ Saved to Coach Google Sheet!";
+    }
+
+    window.onload = function() {
+      const params = new URLSearchParams(window.location.search);
+      const urlP = params.get("phone") || localStorage.getItem("tlc_saved_phone");
+      if (urlP) {
+        document.getElementById("phoneInput").value = urlP;
+        loginStudent(urlP);
+      }
+    };
+  </script>
+</body>
+</html>
