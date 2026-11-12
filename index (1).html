@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TLC Academy — Self-Study Tracker & بنك الماتريال</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-[#EEF2F6] text-slate-800 min-h-screen">
+  <div id="app"></div>
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbz5QuplSxuwjmRTYjGNzKo9XraWpfeswmtNLWITnfcoqk2EeqDzsLlUdw-y9RnHbxk/exec";
+    const DRIVE_FOLDER = "https://drive.google.com/drive/folders/1LvbOgsngSlacWrQ7P2yNLGISeZD7AD1R?usp=sharing";
+    const LEVEL_AJ_FOLDERS = {"A2":["https://drive.google.com/drive/folders/1dfW5eyH189tjGnDlruD-wa7bE446F8vi?usp=sharing","https://drive.google.com/drive/folders/1X0mmHXTEQJqz5QtdXNLti6UVdqZrMbTy?usp=sharing","https://drive.google.com/drive/folders/1Uqa4HTGGWLJCXrAnsd2Iz70eIUgx3oBg?usp=sharing","https://drive.google.com/drive/folders/1CpwANktlqMbdQdVYqxVn4ito5abAdjAV?usp=sharing","https://drive.google.com/drive/folders/1nnbhWGu93nwu5GkOOqjIIN65rWZ6Fm-Y?usp=sharing","https://drive.google.com/drive/folders/1HqkLRuu6JnykGU2egJgoZENlgDcJzjkO?usp=sharing","https://drive.google.com/drive/folders/1tjDx2ZZ8eaYXITXVXvy7XbsQ6bGgYW7E?usp=sharing","https://drive.google.com/drive/folders/1_Mg57-XW3Ij2bQFfMzT3Becg2PHnWUSg?usp=sharing"],"A2+":["https://drive.google.com/drive/folders/1CYuN87yoiC0oFXeTK-PCyfx2i_mYkC4Z?usp=sharing","https://drive.google.com/drive/folders/1tIteRRC9xWRFbDodbYG5tX2tcjp_tZ5T?usp=sharing","https://drive.google.com/drive/folders/1BRnRIHJk0XSLL-8DlpjQmW2OYFxyUBXQ?usp=sharing","https://drive.google.com/drive/folders/1CJRQHT6m1mZc4jolQOSgVVW0czBF4WZt?usp=sharing","https://drive.google.com/drive/folders/1pOMUNgjEKXGS9Iiz1taJLier9MgF423G?usp=sharing","https://drive.google.com/drive/folders/1CjTgxAdC5cRgF2xtevBEBz1Tw8KFDAcN?usp=sharing","https://drive.google.com/drive/folders/1CL4jA1luvioZ2W2pJAQp5Rj2qlNQcoX7?usp=sharing","https://drive.google.com/drive/folders/19quUfckdR3ONf3wZeMupl7wpQu2WZW-I?usp=sharing"]};
+    const TLC_LEVELS = ["Starter 1","Starter 2","Starter 3","A1","A2","A2+","B1","B2","B2+","C1","C2","C2+"];
+    const SKILL_TABS = [
+      { id: 'aj', label: 'AJ', subtitle: 'Listening & Story', color: 'bg-blue-600' },
+      { id: 'friends', label: 'Friends', subtitle: 'Shadowing & Dialogue', color: 'bg-purple-600' },
+      { id: 'vocabs', label: 'Vocabs', subtitle: 'Lexical Builder', color: 'bg-amber-500' },
+      { id: 'quizzes', label: 'Quizzes', subtitle: 'Grammar & Practice', color: 'bg-emerald-600' },
+      { id: 'pronunciation', label: 'Pronunciation', subtitle: 'Phonetics & Drills', color: 'bg-[#CC171D]' },
+      { id: 'conversation', label: 'Conversation', subtitle: 'Speaking & Fluency', color: 'bg-teal-600' }
+    ];
+
+    let students = JSON.parse(localStorage.getItem('tlc_standalone_v6') || 'null') || [{"id":"student-tlc-101","username":"ahmed101","password":"123456","phone":"01012345601","email":"ahmed@tlc-academy.com","name":"Ahmed Hassan","level":"B1","currentCycleDay":1,"accessStartDate":"2026-11-12","forceLocked":false,"onlineEval":{"attendancePercent":95,"participationScore":90,"examScore":88,"instructorNote":"Active online B1 student starting his 30-day self-study sheet."},"coachDecisionOverride":"AUTO","coachGuidance":"Welcome Ahmed! Your 30-day self-study tracker is 100% blank and ready. Tap any checkmark as you finish each daily task!","actionSteps":["Open بنك الماتريال (Materials Bank) to download your Level B1 materials.","Check off your completed tasks day by day from Day 1 to Day 30."],"days":{"1":{"aj":{"completed":true,"note":"Checked by student","verifiedAt":"2026-11-12 • 06:49 PM"},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":true,"note":"Checked by student","verifiedAt":"2026-11-12 • 06:50 PM"},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"2":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"3":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"4":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"5":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"6":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"7":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"8":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"9":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"10":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"11":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"12":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"13":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"14":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"15":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"16":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"17":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"18":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"19":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"20":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"21":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"22":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"23":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"24":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"25":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"26":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"27":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"28":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"29":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"30":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}}}},{"id":"student-tlc-102","username":"sara102","password":"123456","phone":"01012345602","email":"sara@tlc-academy.com","name":"Sara Mahmoud","level":"A2+","currentCycleDay":1,"accessStartDate":"2026-11-12","forceLocked":false,"onlineEval":{"attendancePercent":100,"participationScore":95,"examScore":92,"instructorNote":"Enrolled in Level A2+."},"coachDecisionOverride":"AUTO","coachGuidance":"Welcome Sara! Download your A2+ materials and check off your tasks daily from Day 1 to Day 30.","actionSteps":["Complete Day 1 to Day 30 tasks for Level A2+."],"days":{"1":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"2":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"3":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"4":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"5":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"6":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"7":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"8":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"9":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"10":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"11":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"12":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"13":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"14":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"15":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"16":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"17":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"18":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"19":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"20":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"21":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"22":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"23":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"24":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"25":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"26":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"27":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"28":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"29":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"30":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}}}},{"id":"student-tlc-103","username":"omar103","password":"123456","phone":"01012345603","email":"omar@tlc-academy.com","name":"Omar Khaled (Expired 45-Day Demo)","level":"B2","currentCycleDay":30,"accessStartDate":"2026-09-01","forceLocked":false,"onlineEval":{"attendancePercent":80,"participationScore":75,"examScore":70,"instructorNote":"45-day access window has ended."},"coachDecisionOverride":"REPEAT","coachGuidance":"45-day access period has expired. Please contact your Coach to renew or unlock.","actionSteps":["Contact Coach to renew 45-day access."],"days":{"1":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"2":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"3":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"4":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"5":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"6":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"7":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"8":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"9":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"10":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"11":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"12":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"13":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"14":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"15":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"16":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"17":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"18":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"19":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"20":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"21":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"22":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"23":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"24":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"25":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"26":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"27":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"28":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"29":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}},"30":{"aj":{"completed":false,"note":"","verifiedAt":""},"friends":{"completed":false,"note":"","verifiedAt":""},"vocabs":{"completed":false,"note":"","verifiedAt":""},"quizzes":{"completed":false,"note":"","verifiedAt":""},"pronunciation":{"completed":false,"note":"","verifiedAt":""},"conversation":{"completed":false,"note":"","verifiedAt":""}}}}];
+    let session = JSON.parse(localStorage.getItem('tlc_standalone_session_v6') || 'null');
+    let activeTab = 'master';
+    let loginTab = 'student';
+    let loginError = '';
+
+    function saveLocal() {
+      localStorage.setItem('tlc_standalone_v6', JSON.stringify(students));
+      if (session) localStorage.setItem('tlc_standalone_session_v6', JSON.stringify(session));
+      else localStorage.removeItem('tlc_standalone_session_v6');
+    }
+
+    function computeAccess(stu) {
+      const startStr = stu.accessStartDate || new Date().toISOString().slice(0, 10);
+      const start = new Date(startStr + 'T00:00:00');
+      const daysElapsed = Math.max(0, Math.floor((Date.now() - start.getTime()) / 86400000));
+      const daysRemaining = Math.max(0, 45 - daysElapsed);
+      const exp = new Date(start.getTime() + 45 * 86400000).toISOString().slice(0, 10);
+      return { startStr, exp, daysRemaining, isExpired: Boolean(stu.forceLocked) || daysElapsed >= 45 };
+    }
+
+    function computeStats(stu) {
+      let done = 0, fullDays = 0;
+      const perTab = { aj:0, friends:0, vocabs:0, quizzes:0, pronunciation:0, conversation:0 };
+      for (let d = 1; d <= 30; d++) {
+        let dc = 0;
+        SKILL_TABS.forEach(t => {
+          if (stu.days && stu.days[d] && stu.days[d][t.id] && stu.days[d][t.id].completed) {
+            done++; dc++; perTab[t.id]++;
+          }
+        });
+        if (dc === 6) fullDays++;
+      }
+      return { done, left: 180 - done, pct: Math.round((done/180)*100), fullDays, needed90: Math.max(0, 162 - done), perTab };
+    }
+
+    function syncCloud(payload) {
+      if (!GAS_URL) return;
+      fetch(GAS_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload) }).catch(()=>{});
+    }
+
+    window.doStudentLogin = function(e) {
+      if (e) e.preventDefault();
+      const idVal = (document.getElementById('loginId').value || '').trim();
+      const passVal = (document.getElementById('loginPass').value || '').trim();
+      const digits = idVal.replace(/\D/g, '');
+      const low = idVal.toLowerCase();
+      const found = students.find(s => {
+        const sp = String(s.phone||'').replace(/\D/g,'');
+        return (digits.length>=6 && sp.endsWith(digits)) ||
+               String(s.username||'').toLowerCase() === low ||
+               String(s.email||'').toLowerCase() === low ||
+               (low.length>=3 && String(s.name||'').toLowerCase().includes(low));
+      });
+      if (!found) { loginError = 'Account not found. Check your Phone, Email, Username, or Name.'; render(); return; }
+      if (String(found.password||'123456').trim() !== passVal) { loginError = 'Incorrect password.'; render(); return; }
+      const acc = computeAccess(found);
+      if (acc.isExpired) {
+        loginError = '🔒 ACCESS EXPIRED (45-Day Limit Reached): Your 45-day access for Level ' + found.level + ' expired on ' + acc.exp + '. Contact your Coach to renew.';
+        render(); return;
+      }
+      loginError = '';
+      session = { role: 'student', studentId: found.id };
+      saveLocal(); render();
+    };
+
+    window.doCoachLogin = function(e) {
+      if (e) e.preventDefault();
+      const p = (document.getElementById('coachPass').value || '').trim();
+      if (p !== 'TLC2026') { loginError = 'Invalid Coach Passcode.'; render(); return; }
+      loginError = ''; session = { role: 'coach' }; saveLocal(); render();
+    };
+
+    window.toggleCell = function(day, tabId) {
+      const stu = students.find(s => s.id === session.studentId);
+      if (!stu) return;
+      if (!stu.days[day]) stu.days[day] = {};
+      const prev = stu.days[day][tabId] || {};
+      const next = !prev.completed;
+      stu.days[day][tabId] = { completed: next, note: next ? 'Checked by student' : '', verifiedAt: new Date().toISOString().slice(0,10) };
+      saveLocal(); syncCloud({ student: stu }); render();
+    };
+
+    window.addStudentCoach = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('nsName').value.trim();
+      const phone = document.getElementById('nsPhone').value.trim();
+      const email = document.getElementById('nsEmail').value.trim();
+      const user = document.getElementById('nsUser').value.trim() || (name.split(' ')[0].toLowerCase() + phone.slice(-3));
+      const pass = document.getElementById('nsPass').value.trim() || '123456';
+      const level = document.getElementById('nsLevel').value;
+      if (!name || !phone) return;
+      const days = {};
+      for (let d=1; d<=30; d++) {
+        days[d] = {};
+        SKILL_TABS.forEach(t => days[d][t.id] = { completed: false, note: '', verifiedAt: '' });
+      }
+      const ns = { id: 'stu-'+Date.now(), name, phone, email: email||(user+'@tlc-academy.com'), username: user, password: pass, level, currentCycleDay: 1, accessStartDate: new Date().toISOString().slice(0,10), forceLocked: false, days };
+      students.push(ns); saveLocal(); syncCloud({ student: ns }); render();
+    };
+
+    window.logout = function() { session = null; saveLocal(); render(); };
+
+    function render() {
+      const root = document.getElementById('app');
+      if (!session) {
+        root.innerHTML = `
+          <div class="min-h-screen bg-[#162336] flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden">
+              <div class="grid grid-cols-2 bg-slate-100 border-b">
+                <button onclick="loginTab='student';loginError='';render()" class="py-4 font-black text-xs sm:text-sm ${loginTab==='student'?'bg-white text-[#162336] border-b-4 border-[#CC171D]':'text-slate-500'}">1. Student Login (Materials & Tracker)</button>
+                <button onclick="loginTab='coach';loginError='';render()" class="py-4 font-black text-xs sm:text-sm ${loginTab==='coach'?'bg-white text-[#162336] border-b-4 border-[#10B981]':'text-slate-500'}">2. Coach Portal</button>
+              </div>
+              <div class="p-6 space-y-4">
+                ${loginError ? `<div class="p-3 rounded-xl bg-red-50 border border-red-200 text-xs font-bold text-[#CC171D]">${loginError}</div>` : ''}
+                ${loginTab === 'student' ? `
+                  <form onsubmit="doStudentLogin(event)" class="space-y-3">
+                    <div>
+                      <label class="block text-xs font-black uppercase mb-1">1. Phone Number, Email, Username, or Name *</label>
+                      <input id="loginId" required placeholder="010... or email or username" class="w-full px-4 py-3 border-2 rounded-xl text-sm font-bold" />
+                    </div>
+                    <div>
+                      <label class="block text-xs font-black uppercase mb-1">2. Password *</label>
+                      <input id="loginPass" type="password" required placeholder="Enter password" class="w-full px-4 py-3 border-2 rounded-xl text-sm font-bold" />
+                    </div>
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-[#CC171D] text-white font-black text-sm">Open My Level Materials & 30-Day Tracker →</button>
+                  </form>
+                ` : `
+                  <form onsubmit="doCoachLogin(event)" class="space-y-3">
+                    <label class="block text-xs font-black uppercase mb-1">Coach Passcode</label>
+                    <input id="coachPass" type="password" placeholder="Enter Coach Passcode" class="w-full px-4 py-3 border-2 rounded-xl text-sm font-bold" />
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-[#162336] text-white font-black text-sm">Open Coach Portal</button>
+                  </form>
+                `}
+              </div>
+            </div>
+          </div>`;
+        return;
+      }
+
+      if (session.role === 'student') {
+        const stu = students.find(s => s.id === session.studentId);
+        if (!stu) { logout(); return; }
+        const st = computeStats(stu);
+        const acc = computeAccess(stu);
+        root.innerHTML = `
+          <header class="bg-[#162336] text-white p-4 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h1 class="font-black text-base">${stu.name} — Level ${stu.level} Portal</h1>
+              <span class="text-xs text-amber-300 font-bold">⏳ ${acc.daysRemaining} Days Remaining (45-Day Access expires ${acc.exp})</span>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="activeTab='master';render()" class="px-3 py-2 rounded-xl text-xs font-black ${activeTab==='master'?'bg-[#10B981] text-white':'bg-slate-800 text-slate-200'}">1. My 30-Day Checklist</button>
+              <button onclick="activeTab='bank';render()" class="px-3 py-2 rounded-xl text-xs font-black ${activeTab==='bank'?'bg-amber-400 text-[#162336]':'bg-slate-800 text-amber-300'}">2. 📂 بنك الماتريال (Level ${stu.level} Only)</button>
+              <button onclick="logout()" class="px-3 py-2 rounded-xl bg-red-700 text-white text-xs font-bold">Log Out</button>
+            </div>
+          </header>
+          <main class="max-w-6xl mx-auto p-4 space-y-5">
+            ${activeTab === 'bank' ? `
+              <div class="bg-white rounded-2xl p-6 border-2 border-[#162336] space-y-4">
+                <h2 class="text-xl font-black text-[#162336]">📂 بنك الماتريال — Locked to Level ${stu.level} Only</h2>
+                <p class="text-xs text-slate-600">Download your official Level ${stu.level} study materials below:</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  ${SKILL_TABS.map(t => `
+                    <div class="p-4 rounded-xl bg-slate-50 border flex flex-col justify-between gap-3">
+                      <div>
+                        <span class="px-2.5 py-1 rounded text-white text-xs font-black ${t.color}">${t.label} — Level ${stu.level}</span>
+                        <h3 class="font-black text-sm mt-2">${t.label} (${t.subtitle})</h3>
+                      </div>
+                      <a href="${DRIVE_FOLDER}" target="_blank" class="py-2 px-3 rounded-xl bg-[#162336] text-amber-300 text-xs font-black text-center">📥 Open Level ${stu.level} ${t.label} Files</a>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : `
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-2xl border-2 border-[#10B981]">
+                  <div class="text-xs font-black text-emerald-700 uppercase">1. Accomplished (Done)</div>
+                  <div class="text-2xl font-black mt-1">${st.done} / 180 (${st.pct}%)</div>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border-2 border-[#CC171D]">
+                  <div class="text-xs font-black text-[#CC171D] uppercase">2. What Is Left (Days 1–30)</div>
+                  <div class="text-2xl font-black text-[#CC171D] mt-1">${st.left} Tasks Left</div>
+                  <div class="text-xs text-slate-500 mt-1">${st.needed90} more needed for 90% Promotion (162/180)</div>
+                </div>
+                <div class="bg-[#162336] text-white p-4 rounded-2xl flex flex-col justify-between">
+                  <div class="text-xs font-black text-amber-300">Level ${stu.level} • ${acc.daysRemaining} Days Left</div>
+                  <button onclick="activeTab='bank';render()" class="mt-2 py-2 rounded-xl bg-amber-400 text-[#162336] text-xs font-black">📂 Open بنك الماتريال (Level ${stu.level}) →</button>
+                </div>
+              </div>
+              <div class="bg-white rounded-2xl shadow border-2 border-[#162336] overflow-x-auto">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead class="bg-[#162336] text-white font-black">
+                    <tr>
+                      <th class="p-3">Day</th>
+                      ${SKILL_TABS.map(t => `<th class="p-3 text-center">${t.label} (${st.perTab[t.id]}/30)</th>`).join('')}
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y">
+                    ${Array.from({length:30},(_,i)=>i+1).map(d => `
+                      <tr>
+                        <td class="p-3 font-black bg-slate-50">Day ${d}</td>
+                        ${SKILL_TABS.map(t => {
+                          const c = stu.days && stu.days[d] && stu.days[d][t.id] && stu.days[d][t.id].completed;
+                          return `<td onclick="toggleCell(${d},'${t.id}')" class="p-2.5 text-center cursor-pointer ${c?'bg-emerald-50':'hover:bg-slate-100'}">
+                            <div class="w-7 h-7 mx-auto rounded-lg flex items-center justify-center border-2 font-black ${c?'bg-[#10B981] border-[#10B981] text-white':'bg-white border-slate-300 text-transparent'}">✓</div>
+                          </td>`;
+                        }).join('')}
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            `}
+          </main>`;
+        return;
+      }
+
+      // Coach View
+      root.innerHTML = `
+        <header class="bg-[#162336] text-white p-4 flex items-center justify-between">
+          <h1 class="font-black">TLC Academy — Coach Portal (45-Day Access & 30-Day Progress)</h1>
+          <button onclick="logout()" class="px-3 py-1.5 rounded-xl bg-[#CC171D] text-xs font-black">Log Out</button>
+        </header>
+        <main class="max-w-6xl mx-auto p-4 space-y-6">
+          <form onsubmit="addStudentCoach(event)" class="bg-white p-4 rounded-2xl border grid grid-cols-1 sm:grid-cols-6 gap-2 text-xs">
+            <input id="nsName" required placeholder="Full Name *" class="px-3 py-2 border rounded-xl font-bold" />
+            <input id="nsPhone" required placeholder="Phone (010...) *" class="px-3 py-2 border rounded-xl font-bold" />
+            <input id="nsEmail" placeholder="Email" class="px-3 py-2 border rounded-xl font-bold" />
+            <input id="nsUser" placeholder="Username (Auto)" class="px-3 py-2 border rounded-xl font-bold" />
+            <input id="nsPass" value="123456" placeholder="Password *" class="px-3 py-2 border rounded-xl font-bold" />
+            <select id="nsLevel" class="px-3 py-2 border rounded-xl font-black">${TLC_LEVELS.map(l=>`<option>${l}</option>`).join('')}</select>
+            <button type="submit" class="sm:col-span-6 py-2.5 rounded-xl bg-[#10B981] text-white font-black">+ Add Student (100% Blank 30-Day Sheet + 45-Day Access)</button>
+          </form>
+          <div class="bg-white rounded-2xl border overflow-x-auto">
+            <table class="w-full text-xs text-left">
+              <thead class="bg-[#162336] text-white font-black">
+                <tr><th class="p-3">Phone</th><th class="p-3">Name & Email</th><th class="p-3">User / Pass</th><th class="p-3">Level</th><th class="p-3">45-Day Status</th><th class="p-3">30-Day Progress</th></tr>
+              </thead>
+              <tbody class="divide-y">
+                ${students.map(s => {
+                  const st = computeStats(s);
+                  const acc = computeAccess(s);
+                  return `<tr>
+                    <td class="p-3 font-mono font-black text-[#CC171D]">${s.phone}</td>
+                    <td class="p-3 font-bold">${s.name}<div class="text-[10px] text-slate-400">${s.email}</div></td>
+                    <td class="p-3 font-mono">${s.username} / <strong>${s.password}</strong></td>
+                    <td class="p-3 font-black">${s.level} Only</td>
+                    <td class="p-3 font-black ${acc.isExpired?'text-red-600':'text-emerald-700'}">${acc.isExpired?'LOCKED':acc.daysRemaining+'d left'}</td>
+                    <td class="p-3 font-black">${st.pct}% (${st.done}/180)</td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </main>`;
+    }
+    render();
+  </script>
+</body>
+</html>
